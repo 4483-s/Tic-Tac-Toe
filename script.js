@@ -1,3 +1,24 @@
+const dom = (function () {
+  const playBtn = document.querySelector(".play");
+  const dialog = document.querySelector("dialog");
+  const cancel = document.querySelector(".cancel");
+  const rows = document.querySelectorAll(".rows");
+  console.log(rows);
+  rows.forEach((row, index) => {
+    row
+      .querySelectorAll("div")
+      .forEach((cell, i) =>
+        cell.addEventListener("click", () => console.log(index, i))
+      );
+  });
+  // rows.forEach((row, index) =>
+  //   row.children.forEach((cell, i) =>
+  //     cell.addEventListener("click", () => console.log(index, i))
+  //   )
+  // );
+  playBtn.addEventListener("click", () => dialog.show());
+  cancel.addEventListener("click", () => dialog.close());
+})();
 const gameboard = (function () {
   const rows = [
     ["", "", ""],
@@ -11,7 +32,7 @@ const gameboard = (function () {
     }
   };
   const getBoard = () => rows;
-  const checkResult = () => {
+  const checkGameStatus = () => {
     for (const r of rows) {
       if (r.every((v) => v === r[0] && v)) {
         return r[0];
@@ -38,8 +59,18 @@ const gameboard = (function () {
     else return "ongoing";
   };
   const takeInput = (input, row, column) => {
-    rows[row - 1][column - 1] = input ? "O" : "X";
+    rows[row][column] = input ? "O" : "X";
   };
 
-  return { clearBoard, getBoard, checkResult, takeInput };
+  return { clearBoard, getBoard, checkGameStatus, takeInput };
 })();
+const users = function () {};
+const makePlayer = function (name, mark) {
+  const placeMark = (input, row, column) =>
+    gameboard.takeInput(input, row, column);
+  return { name, mark, placeMark };
+};
+function playGame() {
+  const player1 = makePlayer();
+  const player2 = makePlayer();
+}

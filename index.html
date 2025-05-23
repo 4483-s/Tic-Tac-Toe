@@ -3,9 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Tic-Tac-Toe</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="bar">
+      <button class="play">Play</button>
+      <dialog>
+        <form>
+          <input type="text" />
+          <div>
+            <label for="player1">Player 1 Name: </label
+            ><input type="text" id="player1" value="Player1" />
+          </div>
+          <div>
+            <label for="player2">Player 2 Name: </label
+            ><input type="text" id="player2" value="Player2" />
+          </div>
+        </form>
+        <button class="cancel">Cancel</button>
+        <button class="ok">OK</button>
+      </dialog>
+    </div>
+    <div class="board">
+      <div class="rows">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="rows">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="rows">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
