@@ -3,22 +3,36 @@ const dom = (function () {
   const dialog = document.querySelector("dialog");
   const cancel = document.querySelector(".cancel");
   const rows = document.querySelectorAll(".rows");
-  console.log(rows);
-  rows.forEach((row, index) => {
-    row
-      .querySelectorAll("div")
-      .forEach((cell, i) =>
-        cell.addEventListener("click", () => console.log(index, i))
+  const confirm = document.querySelector(".confirm");
+  confirm.addEventListener("click", () => {
+    dialog.close();
+    const oplayer = makePlayer(document.querySelector("#oplayer").value);
+    const xplayer = makePlayer(document.querySelector("#xplayer").value);
+    rows.forEach((row, index) => {
+      row.querySelectorAll("div").forEach((cell, i) =>
+        cell.addEventListener("click", () => {
+          if (gameboard.currentMark) {
+            oplayer.placeMark(true, index, i);
+          } else {
+            xplayer.placeMark(false, index, i);
+          }
+          gameboard.currentMark = !gameboard.currentMark;
+        })
       );
+    });
   });
-  // rows.forEach((row, index) =>
-  //   row.children.forEach((cell, i) =>
-  //     cell.addEventListener("click", () => console.log(index, i))
-  //   )
-  // );
-  playBtn.addEventListener("click", () => dialog.show());
+  playBtn.addEventListener("click", () => {
+    dialog.show();
+  });
   cancel.addEventListener("click", () => dialog.close());
+  return { confirm };
 })();
+const makePlayer = function (name) {
+  const placeMark = (input, row, column) =>
+    gameboard.takeInput(input, row, column);
+  return { name, placeMark };
+};
+
 const gameboard = (function () {
   const rows = [
     ["", "", ""],
@@ -61,16 +75,6 @@ const gameboard = (function () {
   const takeInput = (input, row, column) => {
     rows[row][column] = input ? "O" : "X";
   };
-
-  return { clearBoard, getBoard, checkGameStatus, takeInput };
+  const currentMark = true;
+  return { clearBoard, getBoard, checkGameStatus, takeInput, currentMark };
 })();
-const users = function () {};
-const makePlayer = function (name, mark) {
-  const placeMark = (input, row, column) =>
-    gameboard.takeInput(input, row, column);
-  return { name, mark, placeMark };
-};
-function playGame() {
-  const player1 = makePlayer();
-  const player2 = makePlayer();
-}
