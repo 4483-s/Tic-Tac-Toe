@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic-Tac-Toe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -16,13 +22,22 @@
       <button class="play">Play</button>
       <dialog>
         <form>
-          <input type="text" />
+          <div>
+            <fieldset>
+              <legend>Starting Mark</legend>
+              <input type="radio" id="o" name="mark" checked /><label for="o">
+                O</label
+              ><input type="radio" id="x" name="mark" /><label for="x">
+                X</label
+              >
+            </fieldset>
+          </div>
           <div>
             <label for="oplayer">O Player Name: </label
             ><input type="text" id="oplayer" value="Player1" />
           </div>
           <div>
-            <label for="xplayer">X Player Name:</label
+            <label for="xplayer">X Player Name: </label
             ><input type="text" id="xplayer" value="Player2" />
           </div>
         </form>

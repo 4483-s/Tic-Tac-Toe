@@ -11,12 +11,28 @@ const dom = (function () {
     rows.forEach((row, index) => {
       row.querySelectorAll("div").forEach((cell, i) =>
         cell.addEventListener("click", () => {
+          if (gameboard.getBoard()[index][i]) {
+            return;
+          }
           if (gameboard.currentMark) {
             oplayer.placeMark(true, index, i);
+            cell.textContent = "O";
           } else {
             xplayer.placeMark(false, index, i);
+
+            cell.textContent = "X";
           }
-          gameboard.currentMark = !gameboard.currentMark;
+          if (
+            gameboard.checkGameStatus() === "O" ||
+            gameboard.checkGameStatus() === "X"
+          ) {
+            alert(`${gameboard.checkGameStatus()} Wins`);
+          }
+          if (gameboard.checkGameStatus() === "tie") {
+            alert("Tie");
+          } else {
+            gameboard.currentMark = !gameboard.currentMark;
+          }
         })
       );
     });
@@ -58,7 +74,7 @@ const gameboard = (function () {
         rows[0][i] === rows[2][i] &&
         rows[0][i]
       ) {
-        return r[0][i];
+        return rows[0][i];
       }
     }
     if (rows[0][0] === rows[1][1] && rows[0][0] === rows[2][2] && rows[0][0]) {
