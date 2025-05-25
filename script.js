@@ -1,38 +1,34 @@
+const makePlayer = function (name) {
+  const placeMark = (input, row, column) =>
+    gameboard.takeInput(input, row, column);
+  return { name, placeMark };
+};
 const dom = (function () {
   const playBtn = document.querySelector(".play");
+  const resetBtn = document.querySelector(".reset");
   const dialog = document.querySelector("dialog");
   const cancel = document.querySelector(".cancel");
   const rows = document.querySelectorAll(".rows");
   const confirm = document.querySelector(".confirm");
+  const h1 = document.querySelector("h1");
+  const oplayer = makePlayer("O");
+  const xplayer = makePlayer("X");
   confirm.addEventListener("click", () => {
+    oplayer.name = document.querySelector("#oplayer").value;
+    xplayer.name = document.querySelector("#xplayer").value;
+    resetBtn.addEventListener("click", () => {
+      gameboard.clearBoard();
+      document.querySelectorAll(".rows > div").forEach((v) => {
+        v.textContent = "";
+      });
+      return;
+    });
     dialog.close();
-    const oplayer = makePlayer(document.querySelector("#oplayer").value);
-    const xplayer = makePlayer(document.querySelector("#xplayer").value);
+
     rows.forEach((row, index) => {
       row.querySelectorAll("div").forEach((cell, i) =>
         cell.addEventListener("click", () => {
-          if (gameboard.getBoard()[index][i]) {
-            return;
-          }
-          if (gameboard.currentMark) {
-            oplayer.placeMark(true, index, i);
-            cell.textContent = "O";
-          } else {
-            xplayer.placeMark(false, index, i);
-
-            cell.textContent = "X";
-          }
-          if (
-            gameboard.checkGameStatus() === "O" ||
-            gameboard.checkGameStatus() === "X"
-          ) {
-            alert(`${gameboard.checkGameStatus()} Wins`);
-          }
-          if (gameboard.checkGameStatus() === "tie") {
-            alert("Tie");
-          } else {
-            gameboard.currentMark = !gameboard.currentMark;
-          }
+          cellClicked(cell, index, i, oplayer, xplayer, h1);
         })
       );
     });
@@ -43,11 +39,35 @@ const dom = (function () {
   cancel.addEventListener("click", () => dialog.close());
   return { confirm };
 })();
-const makePlayer = function (name) {
-  const placeMark = (input, row, column) =>
-    gameboard.takeInput(input, row, column);
-  return { name, placeMark };
-};
+
+//
+function cellClicked(cell, index, i, oplayer, xplayer, h1) {
+  if (gameboard.getBoard()[index][i]) {
+    return;
+  }
+  if (gameboard.currentMark) {
+    oplayer.placeMark(true, index, i);
+    cell.textContent = "O";
+  } else {
+    xplayer.placeMark(false, index, i);
+
+    cell.textContent = "X";
+  }
+  if (gameboard.checkGameStatus() === "O") {
+    h1.textContent = `${oplayer.name} wins`;
+    h1.style.color = "#b04bb9";
+  }
+  if (gameboard.checkGameStatus() === "X") {
+    h1.textContent = `${xplayer.name} wins`;
+    h1.style.color = "#b04bb9";
+  }
+  if (gameboard.checkGameStatus() === "tie") {
+    h1.textContent = "Tie";
+    h1.style.color = "#b04bb9";
+  } else {
+    gameboard.currentMark = !gameboard.currentMark;
+  }
+}
 
 const gameboard = (function () {
   const rows = [
